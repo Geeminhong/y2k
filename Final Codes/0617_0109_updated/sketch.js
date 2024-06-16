@@ -1874,8 +1874,6 @@ async function mouseClicked() {
       }
 
     }
-    
-  }
  else if (stage == 7) {
       if (0 <= mx && mx <= width && 0 <= my && my <= height) {
         stage = 8; //photo 1
@@ -1951,6 +1949,7 @@ async function mouseClicked() {
       stage = 24;
     }
   }
+}
 }
 
 function mouseMoved() {
