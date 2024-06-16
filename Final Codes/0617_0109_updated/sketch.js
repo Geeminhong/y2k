@@ -223,6 +223,7 @@ let bg_b = false;
 let changeFrameRate = false;
 
 let qr_test;
+let qrImage;
 let bubble;
 let minime;
 let mini1;
@@ -602,6 +603,8 @@ function setup() {
 }
 
 function draw() {
+
+  
   if (inDialogue) {
     console.log(`Stage: ${stage}, Dialogue Index: ${dialogueIndex}`);
     if (dialogues[stage] && dialogueIndex < dialogues[stage].length) {
@@ -842,7 +845,7 @@ function draw() {
 
         textFont(dosGothic);
         textSize(15);
-        text("여긴 어디..?", 1028, 465);
+        text("여긴 어디..?", 1078, 465);
 
 
         if (bg_a == true) {
@@ -1631,7 +1634,7 @@ function draw() {
     case 22:
       changeFrameRate = false;
       image(deco3, 0, 0, 1920, 1080);
-      image(finalButton, 1465, 758);
+      //image(finalButton, 1465, 758);
       //final pic
 
       lightPinkButton.hide();
@@ -1758,6 +1761,11 @@ function draw() {
       // image(finalqr, 1262, 306, 210, 210);
       // pop();
       break;
+
+      default:
+        // 다른 case 처리
+        break
+
     }
 
 
@@ -1801,11 +1809,13 @@ async function getSegmentation() {
     let result = await segmentation[0].mask.toImageData();
     segmentationData = result.data;
   }
+  getSegmentation();
 
   // repeat the segmentation
-  if(stage == 11 || stage === 12 || stage === 14){  
+ /* if(stage == 11 || stage === 12 || stage === 14){  
     getSegmentation();
-  }
+  }*/
+ 
 }
 
 
@@ -1849,13 +1859,7 @@ async function mouseClicked() {
       stage++;
     }
   } else {
-  /*
-   if (stage == 1){
-     if (l_xl < mx && mx < l_xh && l_yl < my && my < l_yh){
-       stage = 2;
-     }
-   }
-     */
+ 
 
  if (stage == 4) {
       if (p_xl < mx && mx < p_xh && p_yl < my && my < p_yh) {
@@ -1884,33 +1888,21 @@ async function mouseClicked() {
         stage = 9; //photo 1
       }
     }
-    // else if (stage == 9) {
-    // if (0 <= mx && mx <= width && 0 <= my && my <= height) {
-    // stage = 10; //photo 2
-    //}
-    // }
+   
     else if (stage == 11) {
       if (0 <= mx && mx <= width && 0 <= my && my <= height) {
         stage = 12; //photo 2
         getSegmentation()
       }
     }
-    // else if (stage == 13) {
-    // if (0 <= mx && mx <= width && 0 <= my && my <= height) {
-    //  stage = 14; //photo3
-    //}
-    //}
+    
     else if (stage == 14) {
       if (0 <= mx && mx <= width && 0 <= my && my <= height) {
         stage = 15; //photo3
         getSegmentation()
       }
     }
-    /*else if (stage == 16) {
-      if (0 <= mx && mx <= width && 0 <= my && my <= height) {
-        stage = 17; //photo3
-      }
-    }*/
+   
     else if (stage == 17) {
       if (0 <= mx && mx <= width && 0 <= my && my <= height) {
         stage = 18; //photo4
@@ -1921,12 +1913,7 @@ async function mouseClicked() {
         stage = 20; //photo4
       }
     }
-    /* else if (stage == 20) {
-       if (0 <= mx && mx <= width && 0 <= my && my <= height) {
-         stage = 21; //photo4
-       }
-     }
-     */
+ 
 
   else if (stage == 22) {
     if (mx >= f1_x1 && mx <= f1_x2 && my >= f1_y1 && my <= f1_y2){
@@ -2280,7 +2267,8 @@ function clearDrawing() {
 }
 
 function shutDown() {
-  stage = 0;
+  location.reload();
+  //stage = 0;
   photos = [];
   passwordValue = '';
   usernameValue = '';
@@ -2299,6 +2287,16 @@ function shutDown() {
   bg_a = false;
   bg_b = false;
   backButton.show();
+
+   // 모든 p5.js DOM 요소 제거
+  removeAllDomElements();
+
+
+    
+}
+
+function reloadPage() {
+  location.reload();
 }
 
 function backY2K() {
