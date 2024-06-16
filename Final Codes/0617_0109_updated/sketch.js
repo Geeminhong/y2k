@@ -165,6 +165,8 @@ let currentPath = []; // 현재 경로를 저장할 배열
 
 let lightPinkButton, lightBlueButton, lightGreenButton, lavenderButton, blackButton, undoButton;
 
+let finalButton;
+
 let savedPhoto;
 
 let stickers = [];
@@ -241,6 +243,12 @@ n1_xl = 1340;
 n1_xh = 1480;
 n1_yl = 875;
 n1_yh = 925;
+
+//final button
+let f1_x1 = 1473;
+let f1_y1 = 760;
+let f1_x2 = 1749;
+let f1_y2 = 820;
 
 let today = new Date();
 let year = today.getFullYear() - 20;
@@ -337,7 +345,8 @@ function preload() {
   deco3 = loadImage("assets/deco_finish.png");
   deco4 = loadImage("assets/deco_print.png");
   deco5 = loadImage("assets/qrcode.png");
-  instructor = loadImage("assets/0.png")
+  instructor = loadImage("assets/0.png");
+  finalButton = loadImage("assets/finalButton.png");
 
   for (let i = 0; i < 15; i++) {
     pfps1[i] = loadImage("assets/pfp1_" + i + ".png");
@@ -1746,6 +1755,7 @@ function draw() {
     case 19:
       changeFrameRate = false;
       image(deco3, 0, 0, 1920, 1080);
+      image(finalButton, 1465, 758);
       //final pic
 
       lightPinkButton.hide();
@@ -1755,8 +1765,8 @@ function draw() {
       blackButton.hide();
       clearButton.hide();
       undoButton.hide();
-
-      nextButton.show();
+      nextButton.hide();
+      //nextButton.show();
 
       if (savedPhoto) {
         image(savedPhoto, 540, 210, savedPhoto.width, savedPhoto.height);
@@ -1794,6 +1804,10 @@ function draw() {
       text("2024.06.20 - 21.", 614, 215);
       textSize(8);
       text("서울대학교 64동 IBK커뮤니케이션센터", 614, 225);
+
+      /*textSize(10);
+      text("Your ID:" + usernameValue, 614, 265);
+      text("Your PW:" + passwordValue, 614, 275);*/
 
       textSize(12);
       text(".*☆。..。.☆*。。ㅇ.☆.。*..*☆。..。.☆*。。ㅇ.", 614, 265);
@@ -2062,10 +2076,9 @@ async function mouseClicked() {
   }
 
   else if (stage == 19) {
-    console.log("18 clicked")
-    if (n1_xl < mx && mx < n1_xh && n1_yl < my && my < n1_yh) {
-      console.log('18 next')
-      let currentFrameImage = get(0, 0, width / 2, height);
+    if (mx >= f1_x1 && mx <= f1_x2 && my >= f1_y1 && my <= f1_y2){
+      console.log('19 next')
+      let currentFrameImage = get(540, 210, 820, 615);
       let base64Image = currentFrameImage.canvas.toDataURL();
       // supbase64Image = base64Image;
       // queueImageUpload(supbase64Image);
@@ -2084,6 +2097,30 @@ async function mouseClicked() {
     }
   }
 }
+
+//마우스 커서 모양 바뀌는 함수
+function mouseMoved() {
+
+  //final 사진 확인
+  if (stage == 19) {
+    if (mouseX >= f1_x1 && mouseX <= f1_x2 && mouseY >= f1_y1 && mouseY <= f1_y2) {
+      document.body.style.cursor = 'pointer'; //클릭 가능한 구역만 손가락 모양 커서로 마우스오버 되게
+    } else {
+      document.body.style.cursor = 'default';
+    }
+  }
+
+  //영수증 프린트
+  if (stage == 20) {
+    if ((q1_xl < mouseX && mouseX < q1_xh && q1_yl < mouseY && mouseY < q1_yh)||
+        (q2_xl < mouseX && mouseX < q2_xh && q2_yl < mouseY && mouseY < q2_yh)) {
+          document.body.style.cursor = 'pointer';
+        } else {
+          document.body.style.cursor = 'default';
+        }
+  }
+}
+
 
 function drawGlow(x, y, r) {
   noFill();
