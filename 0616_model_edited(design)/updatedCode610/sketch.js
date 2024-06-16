@@ -294,6 +294,7 @@ let index6 = 0;
 
 
 function preload() {
+  gothic = loadFont("assets/Pretendard-Medium.ttf");
   dosGothic = loadFont("assets/DOSGothic.ttf");
   barcodeF = loadFont("assets/barcode.ttf");
   img_main1 = loadImage("assets/1.png");
@@ -563,7 +564,7 @@ function draw() {
     case 0:
       shutdownButton.hide();
       //첫 화면-입장하기
-      background(206, 233, 246);
+      /*background(206, 233, 246);
       rectMode(CENTER);
       //fill(164,199,231);
       fill(195, 195, 195);
@@ -593,7 +594,7 @@ function draw() {
       textFont(dosGothic);
       text("정문기입 타이틀", 100, 300);
       textSize(50);
-      text("컴퓨터를 눌러주세요......", 120, 400);
+      text("컴퓨터를 눌러주세요......", 120, 400);*/
 
       image(xp, 0, 0, 1920, 1080);
 
@@ -657,6 +658,18 @@ function draw() {
         text(texts1[index1], 500, 880);
       }
       pop();
+
+      fill(0);
+      textAlign(LEFT);
+      textSize(25);
+      textFont(gothic);
+      text("* 입력하신 ID와 PW는 마지막에 영수증에 함께 출력될 예정입니다.", 775, 342);
+
+      fill(255, 0, 0);
+      textAlign(LEFT);
+      textSize(25);
+      text("* 실제 사용하는 ID와 PW를 입력하지 마세요!", 775, 375);
+
 
       /*
             //clickover
