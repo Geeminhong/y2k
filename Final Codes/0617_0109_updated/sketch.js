@@ -341,7 +341,6 @@ let index4 = 0;
 let index5 = 0;
 let index6 = 0;
 
-
 function preload() {
   gothic = loadFont("assets/Pretendard-Medium.ttf");
   dosGothic = loadFont("assets/DOSGothic.ttf");
@@ -482,6 +481,7 @@ function setup() {
   blackButton.size(50, 50);
   blackButton.position(430, 267);
   blackButton.style('border', 'none');
+  blackButton.style('cursor', 'pointer');
   blackButton.mousePressed(() => { brushColor = 'black'; });
   blackButton.hide();
 
@@ -492,6 +492,7 @@ function setup() {
   lightPinkButton.size(50, 50);
   lightPinkButton.position(430, 323);
   lightPinkButton.style('border', 'none');
+  lightPinkButton.style('cursor', 'pointer');
   lightPinkButton.style('text-align', 'center');
   lightPinkButton.mousePressed(() => { brushColor = 'pink'; });
   lightPinkButton.hide();
@@ -503,6 +504,7 @@ function setup() {
   lightBlueButton.size(50, 50);
   lightBlueButton.position(430, 380);
   lightBlueButton.style('border', 'none');
+  lightBlueButton.style('cursor', 'pointer');
   lightBlueButton.style('text-align', 'center');
   lightBlueButton.mousePressed(() => { brushColor = 'lightblue'; });
   lightBlueButton.hide();
@@ -514,6 +516,7 @@ function setup() {
   lavenderButton.size(73, 73);
   lavenderButton.position(430, 437);
   lavenderButton.style('border', 'none');
+  lavenderButton.style('cursor', 'pointer');
   lavenderButton.mousePressed(() => { brushColor = 'lavender'; });
   lavenderButton.hide();
 
@@ -524,6 +527,7 @@ function setup() {
   lightGreenButton.size(50, 50);
   lightGreenButton.position(430, 493);
   lightGreenButton.style('border', 'none');
+  lightGreenButton.style('cursor', 'pointer');
   lightGreenButton.mousePressed(() => { brushColor = 'lightgreen'; });
   lightGreenButton.hide();
 
@@ -534,6 +538,7 @@ function setup() {
   undoButton.size(50, 50);
   undoButton.position(430, 548);
   undoButton.style('border', 'none');
+  undoButton.style('cursor', 'pointer');
   undoButton.mousePressed(() => {
     if (drawing.length > 0) {
       drawing.pop(); // 마지막 경로를 삭제
@@ -548,6 +553,7 @@ function setup() {
   clearButton.style('font-size', '24px');
   clearButton.position(430, 606);
   clearButton.size(50, 50);
+  clearButton.style('cursor', 'pointer'); // 마우스 커서 모양을 손가락 모양으로 변경
   clearButton.mousePressed(clearDrawing); // 클릭 시 clearDrawing 함수 호출
   clearButton.hide();
 
@@ -559,6 +565,7 @@ function setup() {
   nextButton.size(187, 55);
   nextButton.position(1473, 767); // Adjust position as needed
   nextButton.style('border', 'none');
+  nextButton.style('cursor', 'pointer');
   nextButton.mousePressed(nextStage);
   nextButton.hide();
 
@@ -569,6 +576,7 @@ function setup() {
   shutdownButton.mousePressed(shutDown);
   shutdownButton.hide();
   shutdownButton.style('background-color', 'transparent');
+  shutdownButton.style('cursor', 'pointer');
   shutdownButton.mouseOver(changeButtonColor);
   shutdownButton.mouseOut(resetButtonColor);
 
@@ -580,6 +588,7 @@ function setup() {
   backButton.style('border-radius', '10%');
   backButton.style('border', 'none');
   backButton.style('background-color', 'transparent');
+  backButton.style('cursor', 'pointer');
   backButton.mouseOver(changeButtonColor);
   backButton.mouseOut(resetButtonColor);
 
@@ -590,6 +599,7 @@ function setup() {
   saveButton.style('border', 'none');
   saveButton.style('color', 'rgb(65,76,232)');
   saveButton.style('font-size', '40px');
+  saveButton.style('cursor', 'pointer');
   saveButton.size(150, 80);
   saveButton.position(1250, 750); // Adjust position as needed
   saveButton.mousePressed(handleButtonClick); // Call savePicture after 5 seconds
@@ -1628,7 +1638,7 @@ function draw() {
       //하두리게시
       if (randomScrap4 < 4001) {
         let increment = int(random(500, 600));
-        randomScrap4 += increment;
+        randomScrap4 += increment; 
       }
 
       randomScrap4 = min(randomScrap4, 4001);
@@ -2145,26 +2155,45 @@ async function mouseClicked() {
   }
 }
 
-//마우스 커서 모양 바뀌는 함수
 function mouseMoved() {
+  document.body.style.cursor = 'default';
 
-  //final 사진 확인
-  if (stage == 19) {
-    if (mouseX >= f1_x1 && mouseX <= f1_x2 && mouseY >= f1_y1 && mouseY <= f1_y2) {
-      document.body.style.cursor = 'pointer'; //클릭 가능한 구역만 손가락 모양 커서로 마우스오버 되게
-    } else {
-      document.body.style.cursor = 'default';
+  // 프로필 클릭
+  if (stage == 2) {
+    if (p_xl < mouseX && mouseX < p_xh && p_yl < mouseY && mouseY < p_yh) {
+      document.body.style.cursor = 'pointer';
     }
   }
 
-  //영수증 프린트
+  // 캐릭터 고르기
+  if (stage == 3) {
+    if ((p1_xl < mouseX && mouseX < p1_xh && p1_yl < mouseY && mouseY < p1_yh) ||
+        (p2_xl < mouseX && mouseX < p2_xh && p2_yl < mouseY && mouseY < p2_yh)) {
+      document.body.style.cursor = 'pointer';
+    }
+  }
+
+  if (stage === 4 || stage === 5 || stage === 7 || stage === 8 || 
+    stage === 10 || stage === 11 || stage === 13 || stage === 14 || 
+    stage === 16) {
+  if (n1_xl < mouseX && mouseX < n1_xl + 140 && n1_yl < mouseY && mouseY < n1_yl + 50) {
+    document.body.style.cursor = 'pointer';
+  }
+}
+
+  // final 사진 확인
+  if (stage == 19) {
+    if (mouseX >= f1_x1 && mouseX <= f1_x2 && mouseY >= f1_y1 && mouseY <= f1_y2) {
+      document.body.style.cursor = 'pointer';
+    }
+  }
+
+  // 영수증 프린트
   if (stage == 20) {
-    if ((q1_xl < mouseX && mouseX < q1_xh && q1_yl < mouseY && mouseY < q1_yh)||
+    if ((q1_xl < mouseX && mouseX < q1_xh && q1_yl < mouseY && mouseY < q1_yh) ||
         (q2_xl < mouseX && mouseX < q2_xh && q2_yl < mouseY && mouseY < q2_yh)) {
-          document.body.style.cursor = 'pointer';
-        } else {
-          document.body.style.cursor = 'default';
-        }
+      sdocument.body.style.cursor = 'pointer';
+    }
   }
 }
 
