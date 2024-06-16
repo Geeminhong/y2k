@@ -427,6 +427,11 @@ async function setup() { // async 추가
 function setup() {
   frameRate(10);
 
+  qrcode = createDiv();
+  qrcode.id('finalqr');
+  qrcode.position(1180, 200);
+  qrcode.hide();
+
   createCanvas(1920, 1080);
   noStroke();
   cam = createCapture(VIDEO, camReady);
