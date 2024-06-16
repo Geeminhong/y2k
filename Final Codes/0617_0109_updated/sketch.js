@@ -2295,6 +2295,10 @@ function printCanvas() {
                 서울대학교 64동 IBK커뮤니케이션센터<br>
                 <br>
                 <br>
+            <div class= bigger>
+                Your ID: ${usernameValue}<br>
+                Your PW: ${passwordValue}
+                <br>
                 <br>
             </div>
             <div class = bigger>
