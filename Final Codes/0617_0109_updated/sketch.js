@@ -474,64 +474,65 @@ function setup() {
   }
 
   // 브러쉬 색 변경 버튼
-  lightPinkButton = createButton('PINK');
+  blackButton = createButton('');
+  blackButton.style('font-family', 'DosGothic');
+  blackButton.style('font-size', '24px');
+  blackButton.style('color', color(255));
+  blackButton.style('background-color', 'transparent'); //버튼색 투명
+  blackButton.size(50, 50);
+  blackButton.position(430, 267);
+  blackButton.style('border', 'none');
+  blackButton.mousePressed(() => { brushColor = 'black'; });
+  blackButton.hide();
+
+  lightPinkButton = createButton('');
   lightPinkButton.style('font-family', 'DosGothic');
   lightPinkButton.style('font-size', '25px');
   lightPinkButton.style('background-color', 'transparent'); //버튼색 투명
-  lightPinkButton.size(73, 73);
-  lightPinkButton.position(173, 132);
+  lightPinkButton.size(50, 50);
+  lightPinkButton.position(430, 323);
   lightPinkButton.style('border', 'none');
   lightPinkButton.style('text-align', 'center');
   lightPinkButton.mousePressed(() => { brushColor = 'pink'; });
   lightPinkButton.hide();
 
-  lightBlueButton = createButton('BLUE');
+  lightBlueButton = createButton('');
   lightBlueButton.style('font-family', 'DosGothic');
   lightBlueButton.style('font-size', '25px');
   lightBlueButton.style('background-color', 'transparent'); //버튼색 투명
-  lightBlueButton.size(73, 73);
-  lightBlueButton.position(266, 132);
+  lightBlueButton.size(50, 50);
+  lightBlueButton.position(430, 380);
   lightBlueButton.style('border', 'none');
   lightBlueButton.style('text-align', 'center');
   lightBlueButton.mousePressed(() => { brushColor = 'lightblue'; });
   lightBlueButton.hide();
 
-  lightGreenButton = createButton('GREEN');
-  lightGreenButton.style('font-family', 'DosGothic');
-  lightGreenButton.style('font-size', '24px');
-  lightGreenButton.style('background-color', 'transparent'); //버튼색 투명
-  lightGreenButton.size(73, 73);
-  lightGreenButton.position(266, 227);
-  lightGreenButton.style('border', 'none');
-  lightGreenButton.mousePressed(() => { brushColor = 'lightgreen'; });
-  lightGreenButton.hide();
-
-  lavenderButton = createButton('LAVENDER');
+  lavenderButton = createButton('');
   lavenderButton.style('font-family', 'DosGothic');
   lavenderButton.style('font-size', '15px');
   lavenderButton.style('background-color', 'transparent'); //버튼색 투명
   lavenderButton.size(73, 73);
-  lavenderButton.position(173, 227);
+  lavenderButton.position(430, 437);
   lavenderButton.style('border', 'none');
   lavenderButton.mousePressed(() => { brushColor = 'lavender'; });
   lavenderButton.hide();
 
-  blackButton = createButton('BLACK');
-  blackButton.style('font-family', 'DosGothic');
-  blackButton.style('font-size', '24px');
-  blackButton.style('color', color(255));
-  blackButton.style('background-color', 'transparent'); //버튼색 투명
-  blackButton.size(73, 73);
-  blackButton.position(173, 319);
-  blackButton.style('border', 'none');
-  blackButton.mousePressed(() => { brushColor = 'black'; });
-  blackButton.hide();
+  lightGreenButton = createButton('');
+  lightGreenButton.style('font-family', 'DosGothic');
+  lightGreenButton.style('font-size', '24px');
+  lightGreenButton.style('background-color', 'transparent'); //버튼색 투명
+  lightGreenButton.size(50, 50);
+  lightGreenButton.position(430, 493);
+  lightGreenButton.style('border', 'none');
+  lightGreenButton.mousePressed(() => { brushColor = 'lightgreen'; });
+  lightGreenButton.hide();
+
 
   // Undo 버튼 생성
   undoButton = createButton('');
   undoButton.style('background-color', 'transparent'); //버튼색 투명
-  undoButton.size(73, 73);
-  undoButton.position(269, 319);
+  undoButton.size(50, 50);
+  undoButton.position(430, 548);
   undoButton.style('border', 'none');
   undoButton.mousePressed(() => {
     if (drawing.length > 0) {
@@ -540,16 +541,16 @@ function setup() {
   });
   undoButton.hide();
 
-
-  clearButton = createButton('CLEAR');
+  clearButton = createButton('');
   clearButton.style('font-family', 'DosGothic');
   clearButton.style('background-color', 'transparent'); //버튼색 투명
   clearButton.style('border', 'none');
   clearButton.style('font-size', '24px');
-  clearButton.position(267, 412);
-  clearButton.size(73, 73);
+  clearButton.position(430, 606);
+  clearButton.size(50, 50);
   clearButton.mousePressed(clearDrawing); // 클릭 시 clearDrawing 함수 호출
   clearButton.hide();
+
 
   nextButton = createButton('');
   nextButton.style('font-family', 'DosGothic');
