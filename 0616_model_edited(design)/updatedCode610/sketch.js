@@ -6,6 +6,7 @@ const metadataURL = modelURL + "metadata.json";
 const flip = true;
 
 let supbase64Image;
+let finalQrCodeBase64 = '';
 
 const supabase = createClient(
   'https://xnlxdxanawcdzmembdfs.supabase.co',
@@ -26,12 +27,56 @@ const dataURLtoFile = (dataurl, fileName) => {
   return new File([u8arr], fileName, { type: mime });
 };
 
+function getGMTDate() {
+  const now = new Date();
+  const gmtNow = new Date(now.toUTCString());
+  return gmtNow;
+}
+
+function updateQRCode() {
+  const now = getGMTDate();
+  const fileName = now.toISOString().replace(/:/g, '').replace(/-/g, '').replace('T', '_').slice(0, 13) + '.jpg';
+  const imageUrl = `https://xnlxdxanawcdzmembdfs.supabase.co/storage/v1/object/public/y2k/public/${fileName}`;
+  
+  new QRCode(document.getElementById("finalqr"), {
+    text: imageUrl,
+    width: 200, // QR 코드의 너비
+    height: 200, // QR 코드의 높이
+    colorDark : "#000000",
+    colorLight : "#ffffff",
+    correctLevel : QRCode.CorrectLevel.H
+  });
+  setTimeout(() => {
+    saveQRCodeToBase64();
+  }, 500);
+}
+
+function saveQRCodeToBase64() {
+  const qrCodeElement = document.getElementById("finalqr");
+  const qrCode = new QRCode(qrCodeElement, {
+    text: '', // Placeholder text, will be updated later
+    width: 120, // QR 코드의 너비
+    height: 120, // QR 코드의 높이
+    colorDark: "#000000",
+    colorLight: "#ffffff",
+    correctLevel: QRCode.CorrectLevel.H
+  });
+
+  const canvas = qrCodeElement.querySelector('canvas');
+  if (canvas) {
+    finalQrCodeBase64 = canvas.toDataURL('image/png');
+    console.log(finalQrCodeBase64); // For testing purposes
+  } else {
+    console.error('QR code canvas not found.');
+  }
+}
+
 async function uploadImageToSupabase(imageData) {
   console.log("upload Image")
   // today date
-  const now = new Date();
-  // file name 'YYYYMMDD_HHMMSS.jpg'
-  const fileName = now.toISOString().replace(/:/g, '').replace(/-/g, '').replace('T', '_').slice(0, 15) + '.jpg';
+  const now = getGMTDate();
+  // file name 'YYYYMMDD_HHMM.jpg'
+  const fileName = now.toISOString().replace(/:/g, '').replace(/-/g, '').replace('T', '_').slice(0, 13) + '.jpg';
 
   // creating file
   const imageFile = dataURLtoFile(imageData, fileName)
@@ -45,12 +90,8 @@ async function uploadImageToSupabase(imageData) {
       upsert: false,
     });
 
-    if (error) {
-      console.log(error)
-    } else {
-      console.log(data)
-    }
-  } 
+  updateQRCode();
+}
   
 
 /*async function uploadImageAndGetUrl(image) {
@@ -1771,11 +1812,7 @@ function draw() {
       image(deco4, 0, 0, 1920, 1080);
       //qr code 만들기
       //임시로 finalqr지정 * 최종적으로는 큐알코드 '링크' 올려야 함 *
-      finalqr = loadImage('assets/qr.png');
-
-
-
-
+      // finalqr = loadImage('assets/qr.png');
 
       //영수증
       rectMode(CORNER);
@@ -1860,13 +1897,17 @@ function draw() {
 
       shutdownButton.show();
 
-      push();
-      rectMode(CENTER);
-      fill(255);
-      rect(1262, 306, 210, 210);
-      imageMode(CENTER);
-      image(finalqr, 1262, 306, 210, 210);
-      pop();
+      let qrImage = createImg(finalQrCodeBase64, 'QR Code');
+      qrImage.position(1180,200);
+      qrImage.size(200,200);
+
+      // push();
+      // rectMode(CENTER);
+      // fill(255);
+      // rect(1262, 306, 210, 210);
+      // imageMode(CENTER);
+      // image(finalqr, 1262, 306, 210, 210);
+      // pop();
       break;
 
 
@@ -2109,15 +2150,64 @@ function nextStage() {
   nextButton.hide();
 }
 
+// function printCanvas() {
+//   let newSrc = finalqr;  // Replace with your desired QR code image URL
+
+//   fetch('assets/print.html')
+//     .then(response => response.text())
+//     .then(data => {
+//       // Modify the QR code image source in the fetched HTML
+//       let updatedHTML = data.replace(/src="[^"]*"/, `src="${newSrc}"`);
+
+//       const printWindow = window.open('', '_blank', 'width=800,height=600');
+//       printWindow.document.write(`
+//         <html>
+//         <head>
+//           <title>Print</title>
+//           <link href="https://hangeul.pstatic.net/hangeul_static/css/nanum-square.css" rel="stylesheet">
+//           <style>
+//             @font-face {
+//               font-family: 'DOSGothic';
+//               src: url('./assets/DOSGothic.ttf');
+//               font-weight: normal;
+//               font-style: normal;
+//             }
+//             @font-face {
+//               font-family: 'Barcode';
+//               src: url('./assets/barcode.ttf');
+//               font-weight: normal;
+//               font-style: normal;
+//             }
+//             .title { font-size: 40px; font-family: 'DOSGothic'; text-align: center; }
+//             .regular { font-family: 'NanumSquare'; font-size: 10px; text-align: center; }
+//             .smaller { font-family: 'DOSGothic'; font-size: 12px; text-align: center; line-height: 2; }
+//             .bigger { font-family: 'NanumSquare'; font-size: 12px; text-align: center; line-height: 1.5; }
+//             .subtitle { font-family: 'DOSGothic'; font-size: 15px; text-align: center; }
+//             .ending { font-family: 'Barcode'; font-size: 60px; text-align: center; }
+//             .center { display: flex; justify-content: center; align-items: flex-end; }
+//             .speech-container { position: relative; display: inline-block; }
+//             .speech-container img { display: block; }
+//             .speech-text { position: absolute; top: 0; left: 0; width: 100%; text-align: center; }
+//           </style>
+//         </head>
+//         <body>
+//           ${updatedHTML}
+//         </body>
+//         </html>
+//       `);
+//       printWindow.document.close();
+
+//       // Wait for the content to be fully loaded before printing
+//       printWindow.onload = function () {
+//         printWindow.focus();
+//         printWindow.print();
+//         printWindow.close();
+//       };
+//     })
+//     .catch(error => console.error('Error fetching the print.html file:', error));
+// }
+
 function printCanvas() {
-  let newSrc = finalqr;  // Replace with your desired QR code image URL
-
-  fetch('assets/print.html')
-    .then(response => response.text())
-    .then(data => {
-      // Modify the QR code image source in the fetched HTML
-      let updatedHTML = data.replace(/src="[^"]*"/, `src="${newSrc}"`);
-
       const printWindow = window.open('', '_blank', 'width=800,height=600');
       printWindow.document.write(`
         <html>
@@ -2147,24 +2237,100 @@ function printCanvas() {
             .speech-container { position: relative; display: inline-block; }
             .speech-container img { display: block; }
             .speech-text { position: absolute; top: 0; left: 0; width: 100%; text-align: center; }
+            .qr-container { position: relative; display: inline-block; }
+            .qr-container img { display: block; margin: 0 auto; }
           </style>
         </head>
         <body>
-          ${updatedHTML}
+          <div class = dimension-container>
+                <div class = title>
+                back to y2k
+            </div>
+            <div class = bigger>
+                2024.06.20 - 21.<br>
+            </div>
+            <div class = regular>
+                서울대학교 64동 IBK커뮤니케이션센터<br>
+                <br>
+                <br>
+                <br>
+            </div>
+            <div class = bigger>
+                .*☆。.。.☆*。。ㅇ.☆.。*..*☆。.。.☆*。ㅇ.<br>
+                ㄷг시 만ㄴг서 반ㄱг워!<br>
+                ㅎ古께 떠난 추억øㅕ행... 즐つㅓ웠ズl?<br>
+                .*☆。.。.☆*。。ㅇ.☆.。*..*☆。.。.☆*。ㅇ.<br>
+                <br>
+                <br>
+                <br>
+
+                ──┼────ミ♣ミ─────┼── <br>
+
+                친구ㄱг무엇을뜻ㅎг는줄○гㄴı¿ <br>
+
+                금ㅂБㅆг워놓고‥ <br>
+
+                서로후호ıㅎг고口ı안ㅎН하는게친구ㅇF‥ <br>
+
+                서로두ı에서남모르게ㅈı켜주고‥ <br>
+
+                ㄴг를위ㅎН목숨도ㅂг춰줄수있는게‥ <br>
+
+                ㅂг로친구ㅇF‥ <br>
+
+                언제ㄴг든든한버팀목○ı도ı주는게‥ <br>
+
+                진정한친구ㅇF‥ <br>
+
+                ──┼────ミ♣ミ─────┼──
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class = center >
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <img id="qrCodeImage" src="${finalQrCodeBase64}" alt="qr code" width="150" height="150">
+                <div class="speech-container">
+                    <img src="./assets/minime.png" alt="minime for scanning" width="180" height="150">
+                    <div class="speech-text">ㄴг를 스캔ㅎH줘!</div> <!-- Add your text here -->
+                </div>
+            </div>
+                <br>
+            <div class = regular>
+                QR코드를 스캔하면 사진을 다운 받을 수 있습니다.
+            </div>
+            <br>
+            <br>
+            <div class = subtitle>
+                BROUGHT TO YOU BY
+            </div>
+            <br>
+            <div class = smaller>
+                팀장................................홍지민<br>
+                개발................................심은비<br>
+                개발................................김지희<br>
+                디자인..............................강지은<br>
+                디자인..............................윤정우<br>
+            </div>
+            <br>
+            <br>
+            <div class = ending>
+                +isc technology+
+            </div>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
         </body>
-        </html>
+      </html>
       `);
       printWindow.document.close();
-
-      // Wait for the content to be fully loaded before printing
       printWindow.onload = function () {
-        printWindow.focus();
         printWindow.print();
         printWindow.close();
       };
-    })
-    .catch(error => console.error('Error fetching the print.html file:', error));
-}
+    }
 
 //스티커 옮기기 (클릭 및 드래그)
 function mousePressed() {
