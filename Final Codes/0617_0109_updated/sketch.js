@@ -310,25 +310,27 @@ let randomTotal1 = 0;
 let randomTotal2 = 501;
 let randomTotal3 = 2001;
 let randomTotal4 = 20001;
-
+let randomBright = 0;
 //text dialogues
 
 let dialogues = {
-  1: ["...","엇 이게 뭐지..?\n아이디가 뭐였더라...",
-    "일단 아무거나 입력해보자","* 입력하신 ID와 PW는 마지막에 영수증에 함께 출력될 예정입니다.\n* 실제 사용하는 ID와 PW를 입력하지 마세요!"],
-  3: ["텅 빈 미니홈피다.",
-    "방문자가 0명이네\n일단 프로필부터 채워보자",
+  1:["Back To Y2K!\n\n진행을 위해 마우스로 화면을 클릭하세요!  >>","이 버튼만 누르면 2004년으로 돌아갈 수 있다고?  >>","궁금하면 OK버튼을 눌러봐"],
+  3: ["...","엇 이게 뭐지..?\n아이디가 뭐였더라...  >>",
+    "일단 아무거나 입력해보자  >>","* 입력하신 ID와 PW는 마지막에 영수증에 함께 출력될 예정입니다.\n* 실제 사용하는 ID와 PW를 입력하지 마세요!"],
+  5: ["텅 빈 미니홈피다.  >>",
+    "방문자가 0명이네\n일단 프로필부터 채워보자  >>",
     "왼쪽의 비어있는 프로필 사진을 클릭해보자."],
-  5: ["마음에 드는 캐릭터를 골라보자."],
-  7: ["여전히 휑한 미니홈피다.\n좀 꾸며볼까"],
-  10: ["첫 사진을 올렸다.\n벌써 반응이 온다!"],
-  11: ["방문자가 늘어났다!\n계속해서 사진첩을 올려볼까?"],
-  13: ["오늘은 Łйㄱr 제일 ħØŧぁĦ . .. ..."],
-  14: ["어쩐지 가구도 늘어난것 같아"],
-  16: ["이번건 좀 잘나온듯."],
-  17: ["마 ! 니 미니홈피 중독이다.\n이제 마지막 사진을 찍자."],
-  19: ["오늘의 추억을 네컷 사진으로 남기고 싶다면..."]
+  7: ["마음에 드는 프로필을 골라보자."],
+  9: ["여전히 휑한 미니홈피다.\n좀 꾸며볼까  >>"],
+  12: ["첫 사진을 올렸다.\n벌써 반응이 온다!  >>"],
+  13: ["방문자가 늘어났다!\n계속해서 사진첩을 올려볼까?  >>"],
+  15: ["오늘은 Łйㄱr 제일 ħØŧぁĦ . .. ...  >>"],
+  16: ["어쩐지 가구도 늘어난것 같아  >>"],
+  18: ["이번건 좀 잘나온듯.  >>"],
+  19: ["마 ! 니 미니홈피 중독이다.\n이제 마지막 사진을 찍자.  >>"],
+  21: ["오늘의 추억을 네컷 사진으로 남기고 싶다면...  >>"]
 };
+
 
 let dialogueIndex = 0; // 현재 대화 인덱스
 let inDialogue = true; // 대화 중인지 여부를 추적
@@ -604,13 +606,14 @@ function setup() {
 
 function draw() {
 
-  
-  if (inDialogue) {
+ if (inDialogue) {
     console.log(`Stage: ${stage}, Dialogue Index: ${dialogueIndex}`);
     if (dialogues[stage] && dialogueIndex < dialogues[stage].length) {
       rectMode(CENTER);
-      fill(255, 255, 255, 100);
-      rect(950, 880, 1500, 200);
+      fill(2, 87, 240, 100);
+      rect(978, 858, 1310, 210);
+      fill(240, 237, 220);
+      rect(980, 860, 1300, 200);
       textAlign(LEFT);
       fill(0);
       textFont('DosGothic');
@@ -657,24 +660,61 @@ function draw() {
       text("정문기입 타이틀", 100, 300);
       textSize(50);
       text("컴퓨터를 눌러주세요......", 120, 400);*/
+if (randomBright <256) {
+        let increment = int(random(20));
+        randomBright += increment;
+      }
+      randomBright = min(randomBright, 255);
+      if (randomBright >= 255) {
+        image(xp, 0, 0, 1920, 1080);
 
-      image(xp, 0, 0, 1920, 1080);
+        push();
+        translate(0, 0);
+        imageMode(CENTER);
+        image(message, width / 2, height / 2);
+        pop();
+        
+        textAlign(CENTER);
+        textSize(50);
+        textFont(dosGothic);
+        text("click anywhere to start!",width/2, height*3/4);
 
-      push();
-      translate(0, 0);
-      imageMode(CENTER);
-      image(message, width / 2, height / 2);
-      pop();
-
-
-
+      }
+  
+        else{
+      
+      fill(int(randomBright));
+      rect(0,0,width,height);
+        }
 
       break;
 
+        case 1:
+        image(xp, 0, 0, 1920, 1080);
+        push();
+        translate(0, 0);
+        imageMode(CENTER);
+        image(message, width / 2, height / 2);
+        pop();
+        inDialogue = true;
+        break;
+
+        case 2:
+          inDialogue = false;
+          image(xp, 0, 0, 1920, 1080);
+          push();
+          translate(0, 0);
+          imageMode(CENTER);
+          image(message, width / 2, height / 2);
+          pop();
+        backButton.show();
+
+  break;
 
 
 
-   case 1:
+
+   case 3;
         inDialogue = true;
         //로그인 창
         backButton.hide();
@@ -728,7 +768,7 @@ function draw() {
         */
         break;
 
-      case 2: push();
+      case 4: push();
         imageMode(CENTER);
 
         pop();
@@ -743,7 +783,7 @@ function draw() {
 
         break;
 
-      case 3:
+      case 5:
         inDialogue = true;
         usernameInput.hide();
         passwordInput.hide();
@@ -754,7 +794,7 @@ function draw() {
 
         break;
 
-      case 4: //clickover
+      case 6: //clickover
         imageMode(CORNER);
         image(img_main1, 0, 0, 1920, 1080);
         if (p_xl < mouseX && mouseX < p_xh && p_yl < mouseY && mouseY < p_yh) {
@@ -767,7 +807,7 @@ function draw() {
         image(defaultpfp, 360, 280, 265, 170);
         break;
 
-      case 5:
+      case 7:
         inDialogue = true;
         //pfp 고르기
         image(img_main2, 0, 0, 1920, 1080);
@@ -804,7 +844,7 @@ function draw() {
 
         break;
 
-      case 6://pfp 고르기
+      case 8://pfp 고르기
         image(img_main2, 0, 0, 1920, 1080);
         fill(0);
         textAlign(LEFT);
@@ -839,7 +879,7 @@ function draw() {
 
         break;
 
-      case 7:
+      case 9:
         inDialogue = true;
         image(img_main9, 0, 0, 1920, 1080);
 
@@ -857,7 +897,7 @@ function draw() {
         }
         break;
 
-        case 8:
+        case 10:
            //촬영 설명화면
       image(instructor, 0, 0, 1920, 1080);
         
@@ -870,7 +910,7 @@ function draw() {
       }
       break;
 
-    case 9:
+    case 11:
       //촬영-인소
       image(img_main3, 0, 0, 1920, 1080);
       saveButton.show();
@@ -957,7 +997,7 @@ function draw() {
 
       break;
 
-    case 10:
+    case 12:
       if (randomScrap1 < 202) {
         let increment = int(random(18));
         randomScrap1 += increment;
@@ -1019,7 +1059,7 @@ function draw() {
       displayLastPhoto();
       break;
 
-    case 11:
+    case 13:
       //홈
 
       inDialogue = true;
@@ -1050,7 +1090,7 @@ function draw() {
       }
       break;
 
-    case 12:
+    case 14:
       //애니콜
 
       image(img_main4, 0, 0, 1920, 1080);
@@ -1143,7 +1183,7 @@ function draw() {
 
       break;
 
-    case 13:
+    case 15:
       //애니콜게시
       if (randomScrap2 < 801) {
         let increment = int(random(80, 90));
@@ -1207,7 +1247,7 @@ function draw() {
       pop();
       break;
 
-    case 14:
+    case 16:
       //홈
       inDialogue = true;
 
@@ -1238,7 +1278,7 @@ function draw() {
       }
       break;
 
-    case 15:
+    case 17:
       //얼짱포즈
       image(img_main5, 0, 0, 1920, 1080);
       saveButton.show();
@@ -1294,7 +1334,7 @@ function draw() {
       }
       break;
 
-    case 16:
+    case 18:
       //얼짱포즈게시
       if (randomScrap3 < 2001) {
         let increment = int(random(100, 200));
@@ -1359,7 +1399,7 @@ function draw() {
      
       break;
 
-    case 17:
+    case 19:
       //홈
       inDialogue = true;
       image(img_main15, 0, 0, 1920, 1080);
@@ -1393,7 +1433,7 @@ function draw() {
 
 
 
-    case 18:
+    case 20:
       //하두리
       image(img_main6, 0, 0, 1920, 1080);
       saveButton.show();
@@ -1474,7 +1514,7 @@ function draw() {
       image(haduri, 750, 250, haduri.width, haduri.height);
       break;
 
-    case 19:
+    case 21:
       //하두리게시
       if (randomScrap4 < 4001) {
         let increment = int(random(500, 600));
@@ -1541,7 +1581,7 @@ function draw() {
       break;
 
 
-    case 20:
+    case 22:
       image(deco1, 0, 0, 1920, 1080);
       nextButton.show();
 
@@ -1579,7 +1619,7 @@ function draw() {
       break;
 
 
-    case 21:
+    case 23:
       image(deco2, 0, 0, 1920, 1080);
 
       if (savedPhoto) {
@@ -1631,7 +1671,7 @@ function draw() {
       pop();
       break;
 
-    case 22:
+    case 24:
       changeFrameRate = false;
       image(deco3, 0, 0, 1920, 1080);
       //image(finalButton, 1465, 758);
@@ -1655,7 +1695,7 @@ function draw() {
 
 
 
-    case 23:
+    case 25:
       background(255);
       image(deco4, 0, 0, 1920, 1080);
       //qr code 만들기
@@ -1742,7 +1782,7 @@ function draw() {
 
 
 
-    case 24:
+    case 26:
       //qr scan
       image(deco5, 0, 0, 1920, 1080);
       nextButton.hide();
@@ -1859,81 +1899,85 @@ async function mouseClicked() {
       stage++;
     }
   } else {
- 
+ if(stage == 0) {
+  if (0 <= mx && mx <= width && 0 <= my && my <= height) {
+    stage = 1; 
+  }
+ }
 
- if (stage == 4) {
+ if (stage == 6) {
       if (p_xl < mx && mx < p_xh && p_yl < my && my < p_yh) {
-        stage = 5;
+        stage = 7;
       }
     }
 
-    if (stage == 6) {
+    if (stage == 8) {
       if (p1_xl < mx && mx < p1_xh && p1_yl < my && my < p1_yh) {
-        stage = 7;
+        stage = 9;
         bg_a = true;
       }
       if (p2_xl < mx && mx < p2_xh && p2_yl < my && my < p2_yh) {
-        stage = 7;
+        stage = 9;
         bg_b = true;
       }
 
     }
- else if (stage == 7) {
+ else if (stage == 9) {
       if (0 <= mx && mx <= width && 0 <= my && my <= height) {
-        stage = 8; //photo 1
+        stage = 10; //photo 1
       }
     }
-    else if (stage == 8) {
+    else if (stage == 10) {
       if (0 <= mx && mx <= width && 0 <= my && my <= height) {
-        stage = 9; //photo 1
+        stage = 11; //photo 1
       }
     }
    
-    else if (stage == 11) {
+    else if (stage == 13) {
       if (0 <= mx && mx <= width && 0 <= my && my <= height) {
-        stage = 12; //photo 2
+        stage = 14; //photo 2
         getSegmentation()
       }
     }
     
-    else if (stage == 14) {
+    else if (stage == 16) {
       if (0 <= mx && mx <= width && 0 <= my && my <= height) {
-        stage = 15; //photo3
+        stage = 17; //photo3
         getSegmentation()
       }
     }
    
-    else if (stage == 17) {
-      if (0 <= mx && mx <= width && 0 <= my && my <= height) {
-        stage = 18; //photo4
-      }
-    }
     else if (stage == 19) {
       if (0 <= mx && mx <= width && 0 <= my && my <= height) {
         stage = 20; //photo4
       }
     }
+    else if (stage == 21) {
+      if (0 <= mx && mx <= width && 0 <= my && my <= height) {
+        stage = 22; //photo4
+      }
+    }
  
 
-  else if (stage == 22) {
+  else if (stage == 24) {
     if (mx >= f1_x1 && mx <= f1_x2 && my >= f1_y1 && my <= f1_y2){
-      console.log('19 next')
+      console.log('24 next')
       let currentFrameImage = get(540, 210, 820, 615);
       let base64Image = currentFrameImage.canvas.toDataURL();
       // supbase64Image = base64Image;
       // queueImageUpload(supbase64Image);
       await uploadImageToSupabase(base64Image);
-      stage = 23;
+      stage = 25;
     }
   }
 
 
-  else if (stage == 23) {
+  else if (stage == 25) {
     if (q1_xl < mx && mx < q1_xh && q1_yl < my && my < q1_yh) {
       printCanvas();
     }
     if (q2_xl < mx && mx < q2_xh && q2_yl < my && my < q2_yh) {
-      stage = 24;
+      stage = 26;
     }
   }
 }
@@ -1943,14 +1987,14 @@ function mouseMoved() {
   document.body.style.cursor = 'default';
 
   // 프로필 클릭
-  if (stage == 4) {
+  if (stage == 6) {
     if (p_xl < mouseX && mouseX < p_xh && p_yl < mouseY && mouseY < p_yh) {
       document.body.style.cursor = 'pointer';
     }
   }
 
   // 캐릭터 고르기
-  if (stage == 6) {
+  if (stage == 8) {
     if ((p1_xl < mouseX && mouseX < p1_xh && p1_yl < mouseY && mouseY < p1_yh) ||
         (p2_xl < mouseX && mouseX < p2_xh && p2_yl < mouseY && mouseY < p2_yh)) {
       document.body.style.cursor = 'pointer';
@@ -1966,14 +2010,14 @@ function mouseMoved() {
 }
 */
   // final 사진 확인
-  if (stage == 22) {
+  if (stage == 24) {
     if (mouseX >= f1_x1 && mouseX <= f1_x2 && mouseY >= f1_y1 && mouseY <= f1_y2) {
       document.body.style.cursor = 'pointer';
     }
   }
 
   // 영수증 프린트
-  if (stage == 23) {
+  if (stage == 25) {
     if ((q1_xl < mouseX && mouseX < q1_xh && q1_yl < mouseY && mouseY < q1_yh) ||
         (q2_xl < mouseX && mouseX < q2_xh && q2_yl < mouseY && mouseY < q2_yh)) {
       sdocument.body.style.cursor = 'pointer';
@@ -2204,7 +2248,7 @@ function mousePressed() {
       break;
     }
   }
-  if (stage === 21) {
+  if (stage === 23) {
     currentPath = [];
     drawing.push(currentPath);
   }
@@ -2219,7 +2263,7 @@ function mouseDragged() {
 
 function mouseReleased() {
   selectedSticker = null;
-  if (stage === 21) {
+  if (stage === 23) {
     currentPath = [];
   }
 }
@@ -2244,8 +2288,8 @@ function keyPressed() {
   }
 
   if (keyCode === ENTER) {
-    if (stage === 2) {
-      stage = 3;
+    if (stage === 4) {
+      stage = 5;
     }
   }
 }
@@ -2300,7 +2344,7 @@ function reloadPage() {
 }
 
 function backY2K() {
-  stage = 1;
+  stage = 3;
 }
 
 function changeButtonColor() {
