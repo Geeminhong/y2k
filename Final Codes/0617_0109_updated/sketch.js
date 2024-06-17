@@ -8,9 +8,11 @@ const flip = true;
 let supbase64Image;
 let finalQrCodeBase64 = '';
 
+let api_key;
+
 const supabase = createClient(
   'https://xnlxdxanawcdzmembdfs.supabase.co',
-  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhubHhkeGFuYXdjZHptZW1iZGZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc2NjM3MTAsImV4cCI6MjAzMzIzOTcxMH0.q_I_74YmbCtC80U7kCL-CbJnyK05DMhNs5caJizczZQ'
+  ''
 );
 
 const dataURLtoFile = (dataurl, fileName) => {
@@ -421,6 +423,9 @@ async function setup() { // async 추가
 
 function setup() {
   frameRate(10);
+
+  api_key = prompt("Enter your API key")
+  console.log(api_key)
 
   qrcode = createDiv();
   qrcode.id('finalqr');
