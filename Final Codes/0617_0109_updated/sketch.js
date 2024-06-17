@@ -714,7 +714,7 @@ if (randomBright <256) {
 
 
 
-   case 3;
+   case 3:
         inDialogue = true;
         //로그인 창
         backButton.hide();
