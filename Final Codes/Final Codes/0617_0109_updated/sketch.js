@@ -12,7 +12,7 @@ let api_key;
 
 const supabase = createClient(
   'https://xnlxdxanawcdzmembdfs.supabase.co',
-  ''
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InhubHhkeGFuYXdjZHptZW1iZGZzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc2NjM3MTAsImV4cCI6MjAzMzIzOTcxMH0.q_I_74YmbCtC80U7kCL-CbJnyK05DMhNs5caJizczZQ'
 );
 
 const dataURLtoFile = (dataurl, fileName) => {
@@ -701,28 +701,6 @@ if (randomBright <256) {
         imageMode(CENTER);
         image(message, width / 2, height / 2);
         pop();
-<<<<<<< HEAD
-=======
-        inDialogue = true;
-        break;
-
-        case 2:
-          inDialogue = false;
-          image(xp, 0, 0, 1920, 1080);
-          push();
-          translate(0, 0);
-          imageMode(CENTER);
-          image(message, width / 2, height / 2);
-          pop();
-        backButton.show();
-
-  break;
-
-
-
-
-   case 3:
->>>>>>> c88aa98ae3b2ed191abf547ec23d6f3476f3d20b
         inDialogue = true;
         break;
 
@@ -800,10 +778,7 @@ if (randomBright <256) {
         break;
 
       case 4: push();
-<<<<<<< HEAD
         
-=======
->>>>>>> c88aa98ae3b2ed191abf547ec23d6f3476f3d20b
         imageMode(CENTER);
 
         pop();
