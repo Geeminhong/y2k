@@ -752,7 +752,7 @@ function draw() {
         imageMode(CORNER);
         image(img_main1, 0, 0, 1920, 1080);
 
-
+        break;
 
       case 4: //clickover
         imageMode(CORNER);
@@ -959,21 +959,21 @@ function draw() {
 
     case 10:
       if (randomScrap1 < 202) {
-        let increment = int(random(8));
+        let increment = int(random(18));
         randomScrap1 += increment;
       }
 
       randomScrap1 = min(randomScrap1, 201);
 
       if (randomToday1 < 502) {
-        let increment = int(random(20));
+        let increment = int(random(40));
         randomToday1 += increment;
       }
 
       randomToday1 = min(randomToday1, 501);
 
       if (randomTotal1 < 502) {
-        let increment = int(random(20));
+        let increment = int(random(40));
         randomTotal1 += increment;
       }
 
@@ -2319,7 +2319,7 @@ function resetButtonColor() {
 
 function handleButtonClick() {
   startCountdown(); // 카운트다운 시작
-  setTimeout(savePicture, 5000); // 5초 후에 savePicture 호출
+  setTimeout(savePicture, 3000); // 3초 후에 savePicture 호출
 }
 
 function startCountdown() {
