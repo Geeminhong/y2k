@@ -599,6 +599,7 @@ function setup() {
   backButton.style('cursor', 'pointer');
   backButton.mouseOver(changeButtonColor);
   backButton.mouseOut(resetButtonColor);
+  backButton.hide();
 
   //사진 저장 버튼
   saveButton = createButton('찰칵!');
@@ -738,7 +739,7 @@ if (randomBright <256) {
 
 
    case 3:
-      
+        inDialogue = true;
         backButton.hide();
 
         push();
