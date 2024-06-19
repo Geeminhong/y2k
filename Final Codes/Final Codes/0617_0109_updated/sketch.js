@@ -168,6 +168,8 @@ let deco3;
 let deco4;
 let deco5;
 let instructor;
+let logoutImg;
+let showLogoutImg = false;
 
 
 let img_analogcomp;
@@ -316,9 +318,9 @@ let randomBright = 0;
 //text dialogues
 
 let dialogues = {
-  1:["Back To Y2K!\n\n진행을 위해 마우스로 화면을 클릭하세요!  >>","이 버튼만 누르면 2004년으로 돌아갈 수 있다고?  >>","궁금하면 OK버튼을 눌러봐"],
+  1:["Back To Y2K!\n진행을 위해 마우스로 화면을 클릭하세요!  >>","이 버튼만 누르면 2004년으로 돌아갈 수 있다고?  >>","궁금하면 OK버튼을 눌러봐  >>"],
   3: ["...","엇 이게 뭐지..?\n아이디가 뭐였더라...  >>",
-    "일단 아무거나 입력해보자  >>","* 입력하신 ID와 PW는 마지막에 영수증에 함께 출력될 예정입니다.\n* 실제 사용하는 ID와 PW를 입력하지 마세요!"],
+    "일단 아무거나 입력해보자  >>","*ID/PW는 마지막 영수증에 함께 출력될 예정이니 임의로 작성해주세요\n*입력 후 ENTER를 눌러 다음으로 넘어가주세요"],
   5: ["텅 빈 미니홈피다.  >>",
     "방문자가 0명이네\n일단 프로필부터 채워보자  >>",
     "왼쪽의 비어있는 프로필 사진을 클릭해보자."],
@@ -426,6 +428,11 @@ function setup() {
 
   api_key = prompt("Enter your API key")
   console.log(api_key)
+
+  logoutImg = createImg("assets/logout.gif");
+  //logoutImg.size(width, height); 
+  logoutImg.position(0,0);
+  logoutImg.hide();
 
   qrcode = createDiv();
   qrcode.id('finalqr');
@@ -607,20 +614,30 @@ function setup() {
   saveButton.hide();
   saveButton.mouseOver(changeButtonColor);
   saveButton.mouseOut(resetButtonColor);
+
+
 }
 
 function draw() {
+
+  if (showLogoutImg) {
+    logoutImg.show(); // 로그아웃 이미지를 보여줌
+  } else {
+    logoutImg.hide(); // 로그아웃 이미지를 숨김
+  }
 
  if (inDialogue) {
     console.log(`Stage: ${stage}, Dialogue Index: ${dialogueIndex}`);
     if (dialogues[stage] && dialogueIndex < dialogues[stage].length) {
       rectMode(CENTER);
-      fill(2, 87, 240, 100);
-      rect(978, 858, 1310, 210);
-      fill(240, 237, 220);
-      rect(980, 860, 1300, 200);
+      fill(10, 47, 245);
+      rect(978, 848, 1200, 210,10);
+      fill(255);
+      rect(978, 863, 1190, 170 );
       textAlign(LEFT);
       fill(0);
+
+
       textFont('DosGothic');
       textSize(30);
       text(dialogues[stage][dialogueIndex], 500, 850);
@@ -1714,6 +1731,8 @@ if (randomBright <256) {
       //임시로 finalqr지정 * 최종적으로는 큐알코드 '링크' 올려야 함 *
       // finalqr = loadImage('assets/qr.png');
 
+      shutdownButton.show();
+
       //영수증
       rectMode(CORNER);
       fill(255);
@@ -1814,9 +1833,13 @@ if (randomBright <256) {
       // pop();
       break;
 
-      default:
-        // 다른 case 처리
-        break
+      case 27:
+        showLogoutImg = true;
+        redraw();
+        setTimeout(() => {
+          location.reload();
+        }, 2000); // 3초 후에 실행
+        break;
 
     }
 
@@ -2323,8 +2346,8 @@ function clearDrawing() {
 }
 
 function shutDown() {
-  location.reload();
-  //stage = 0;
+  stage = 27;
+  //location.reload();
   photos = [];
   passwordValue = '';
   usernameValue = '';
